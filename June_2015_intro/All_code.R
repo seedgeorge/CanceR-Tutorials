@@ -50,8 +50,8 @@ apply(NKI295_data, 2, class)
 # we will use the boxplot command, and select all the columns except the first six
 boxplot(NKI295_data[,-1:-6], pch=16, cex=0.1)
 
-#	but we also want to know which sample is which and what their phenotypes are
-#	so we will read in some more data
+# but we also want to know which sample is which and what their phenotypes are
+# so we will read in some more data
 NKI295_samples <- read.table("data/NKI295.samples.txt", sep="\t", header=T)
 class(NKI295_samples)
 head(NKI295_samples)
