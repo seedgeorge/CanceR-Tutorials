@@ -35,13 +35,18 @@ library(annotate)
 # this command looks for a specific file and makes it into a table that R can deal with
 NKI295_data <- read.table("data/NKI295.expression.data.txt", sep="\t", header=T)
 
-#	what kind of data is this?
+# what kind of data is this?
+# the following commands will give you clues about the data without opening it to read
 class(NKI295_data)
 summary(NKI295_data)
+nrow(NKI295_data)
+ncol(NKI295_data)
 
-#	what is the difference between a data frame and a matrix?
-#	what kind of data is in each column?
+# what is the difference between a data frame and a matrix?
+# what kind of data is in each column?
+head(NKI295_data)
 apply(NKI295_data, 2, class)
 
-
-
+# lets make a quick plot of all the scores 
+# we will use the boxplot command, and select all the columns except the first six
+boxplot(NKI295_data[,-1:-6], pch=16, cex=0.1)
