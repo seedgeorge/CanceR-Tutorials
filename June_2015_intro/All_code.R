@@ -55,3 +55,13 @@ boxplot(NKI295_data[,-1:-6], pch=16, cex=0.1)
 NKI295_samples <- read.table("data/NKI295.samples.txt", sep="\t", header=T)
 class(NKI295_samples)
 head(NKI295_samples)
+# we have to annotate the samples in the dataset and the genes on the array...
+
+# to do this elegantly we can use a more complicated data structure called an expression set
+# similar to the 'read.table' function we used before, we'll use  'readExpressionSet'
+NKI295 <- readExpressionSet(exprsFile="data/NKI295.exprs.txt", sep="\t", header=T, stringsAsFactors=F) 
+
+# we'll include some extra data (WHAT ARE THESE)
+fData(NKI295) <- read.delim("data/NKI295.fdata.txt", sep="\t", header=T, row.names=1, stringsAsFactors=F) 
+pData(NKI295) <- read.table("data/NKI295.pdata.txt", sep="\t", header=T, row.names=1) 
+
