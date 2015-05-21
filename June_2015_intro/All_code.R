@@ -26,7 +26,7 @@ library(oligo)
 library(affy)
 library(annotate)
 
-
+########################################################
 ## Section 1 - we have to do a little bit of R basics
 # we will access the data from http://www.nejm.org/doi/full/10.1056/NEJMoa021967
 # it is a microarray gene expression dataset of 295 breast cancers
