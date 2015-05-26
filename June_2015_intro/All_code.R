@@ -74,6 +74,8 @@ boxplot(exprs(NKI295)[which(fData(NKI295)$symbol == "ESR1"),]~NKI295$subtype, co
 dev.off()
 
 ## End of section 1
-# Optional tasks!
-# Try plotting a different gene - not ESR1 - 
+# Optional tasks
+# Try plotting a different gene - not ESR1!
+# Try some different colours.
+# Try ordering the bars backwards 
 
