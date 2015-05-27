@@ -29,7 +29,7 @@ library(annotate)
 library(gplots)
 
 ########################################################
-## Section 1 - we have to do a little bit of R basics
+## Section 1 - we have to do a little bit of R basics, and then do some plotting
 # we will access the data from http://www.nejm.org/doi/full/10.1056/NEJMoa021967
 # it is a microarray gene expression dataset of 295 breast cancers
 # first we will read the data into R from a file
@@ -79,13 +79,42 @@ dev.off()
 # Try some different colours.
 # Try ordering the bars backwards 
 
+
 ########################################################
 ## Section 2 - more complicated R, looping, and differential expression
 # we will use a library called limma for this section
 # it will help us conduct some differential expression from the dataset we were using earlier
-
-# 
+	
+# first we set up some parameters
 limma.parameters <- cbind(intercept=rep(1, ncol(NKI295)), NKI295$subtype)
+
+# fit linear models for the data set
 limma.fit <- lmFit(exprs(NKI295), limma.parameters)
+
+# apply Bayes smoothing
 limma.fit <- eBayes(limma.fit)
+
+# the top ten genes are collated
 limma.table <- topTable(limma.fit, coef=2, number=nrow(NKI295), sort.by="none")
+
+# check with Al about this bit 
+means <- matrix(0, nrow=nrow(NKI295), ncol=length(levels(NKI295$subtype)))
+for(i in 1:length(levels(NKI295$subtype))){
+	means[,i] <- apply(exprs(NKI295)[,which(NKI295$subtype ==levels(NKI295$subtype)[i])], 1, mean)
+	}
+means.df <- as.data.frame(means)
+names(means.df) <- levels(NKI295$subtype)
+limma.table <- cbind.data.frame(limma.table, means.df, fData(NKI295))
+rownames(limma.table) <- featureNames(NKI295)
+	
+# access the significantly affected genes
+subtype.significant <- limma.table[which(limma.table$adj.P.Val < 1e-10),]
+write.table(subtype.significant, "NKI295.subtype.significant.txt", sep="\t", row.names=F, na="")
+NKI295_subtype.significant <- NKI295[rownames(subtype.significant),]
+	
+#	then make a heatmap
+multiHeatmap(NKI295_subtype.significant, phenotypes="subtype", pheno.colours= subtype.colours, device="PDF", project="NKI295.subtype", width=6, height=9, plot.sample.names=F)
+
+#	then read in the 70 gene list
+signature_70genes <- read.table("data/vantVeer.70genes.txt", sep="\t", header=T)
+signature_metastasis <- read.table("data/vantVeer.metastasis.txt", sep="\t", header=T)
