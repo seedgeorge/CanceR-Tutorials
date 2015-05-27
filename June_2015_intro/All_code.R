@@ -79,3 +79,13 @@ dev.off()
 # Try some different colours.
 # Try ordering the bars backwards 
 
+########################################################
+## Section 2 - more complicated R, looping, and differential expression
+# we will use a library called limma for this section
+# it will help us conduct some differential expression from the dataset we were using earlier
+
+# 
+limma.parameters <- cbind(intercept=rep(1, ncol(NKI295)), NKI295$subtype)
+limma.fit <- lmFit(exprs(NKI295), limma.parameters)
+limma.fit <- eBayes(limma.fit)
+limma.table <- topTable(limma.fit, coef=2, number=nrow(NKI295), sort.by="none")
