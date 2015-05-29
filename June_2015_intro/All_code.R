@@ -56,6 +56,7 @@ barplot(exprs(NKI295)[which(fData(NKI295)$symbol == "ESR1"),])
 barplot(exprs(NKI295)[which(fData(NKI295)$symbol == "ESR1"),], cex.names=0.2, las=2)
 
 # and make it more interesting with some colours
+subtype.colours <- c("red", "deeppink","dark blue", "light blue","orange" )
 barplot(exprs(NKI295)[which(fData(NKI295)$symbol == "ESR1"),], cex.names=0.1, las=2, col=subtype.colours)
 
 # it's a little confusing, so lets sort the bars to make a waterfall plot
